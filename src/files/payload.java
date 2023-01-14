@@ -1,5 +1,11 @@
 package files;
 
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.given;
+
 public class payload {
 
     public static String AddPlace(){
@@ -50,5 +56,30 @@ public class payload {
                 "}]\n" +
                 "}";
 
+    }
+
+    public static String Addbook(String isbn, String aisle){
+        String payload = "{\n" +
+                "\"name\":\"Learn Appium Automation with Java\",\n" +
+                "\"isbn\":\""+isbn+"\",\n" +
+                "\"aisle\":\""+aisle+"\",\n" +
+                "\"author\":\"John foer\"\n" +
+                "}\n";
+        return payload;
+    }
+
+
+    @Test(dataProvider = "BooksData")
+    public void addBook(String isbn, String aisle){
+        RestAssured.baseURI = "https://rahulshettyacademy.com";
+        String response = given().header("Content-Type", "application/json").
+                body(payload.Addbook(isbn, aisle))
+                .when().post("Library/Addbook.php")
+                .then().log().all().assertThat().statusCode(200)
+                .extract().response().asString();
+
+        JsonPath js = ReusableMethods.rawToJson(response);
+        String id = js.get("ID");
+        System.out.println(id);
     }
 }
