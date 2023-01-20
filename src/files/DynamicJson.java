@@ -7,7 +7,6 @@ import io.restassured.path.json.JsonPath;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,7 +14,7 @@ import java.nio.file.Paths;
 public class DynamicJson {
 
 
-/*
+
     @Test(dataProvider = "BooksData")
     public void addBook(String isbn, String aisle){
         RestAssured.baseURI = "https://rahulshettyacademy.com";
@@ -38,7 +37,6 @@ public class DynamicJson {
                 {"kulsum","9820"},{"poonam","8205"},{"pranjali","4512"}
         };
     }
-    */
 
     @Test
     public void addBookUsingFile() throws IOException {
